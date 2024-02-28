@@ -34,7 +34,12 @@ app.use('/service_detail',ServiceDetailRoute);
 app.use('/product_detail',ProductDetailRoute);
 app.use('/gallery_detail',GalleryDetailRoute);
 app.use('/socialMedia_detail',SocialMediaDetailRoute);
-app.use('/testimonial_detail',TestimonialDetailRoute)
+app.use('/testimonial_detail',TestimonialDetailRoute);
+
+
+app.get('/',(req,res)=>{
+  res.status(201).send('Server Is working on home route')
+})
 mongoose.set("strictQuery", false);
 mongoose
   .connect(uri)

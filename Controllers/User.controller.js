@@ -6,8 +6,13 @@ export const postRegister = async (req, res) => {
   let { userName, email, password, profile } = req.body;
 
   try {
-    let hashedPassword = await bcrypt.hash(password, 10);
+    if (!req.body.userName || !req.body.email || !req.body.password) {
+      throw new Error(
+        "Make sure to fill required fields : UserName , Email , Password"
+      );
+    }
 
+    let hashedPassword = await bcrypt.hash(password, 10);
     let data = { userName, email, password: hashedPassword, profile };
 
     let result = await User.create(data);
@@ -46,22 +51,17 @@ export const loginUser = async (req, res) => {
 };
 export const getLoginUserData = async (req, res) => {
   try {
-    let { userName, password, profile } = req.body;
-    let user = await User.findOne({ userName });
+    let { id } = req.params;
 
-    if (user && (await bcrypt.compare(password, user.password, profile))) {
-      return res.status(201).json({
-        _id: user._id,
-        user: user,
-        userName: user.userName,
-        password: user.password,
-        profile: user.profile,
-        status: "Login Successs",
-        token: generateToken(user._id),
-      });
-    } else {
-      return res.status(401).json({ message: "UserDoes not exist" });
-    }
+    let user = await User.findById(id );
+    return res.status(201).json({
+      _id: user._id,
+      userName: user.userName,
+      password: user.password,
+      profile: user.profile,
+      status: "Login Successs",
+      token: generateToken(user._id),
+    });
   } catch (error) {
     return res
       .status(401)

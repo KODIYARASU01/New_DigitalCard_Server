@@ -16,13 +16,9 @@ export const postRegister = async (req, res) => {
     let data = { userName, email, password: hashedPassword, profile };
 
     let result = await User.create(data);
-    return res
-      .status(201)
-      .json({ message: "User Register Succesfully" });
+    return res.status(201).json({ message: "User Register Succesfully" });
   } catch (error) {
-    return res
-      .status(401)
-      .json( error.message );
+    return res.status(401).json({ message: "User Already Exist ..Make to create New UserName" });
   }
 };
 
@@ -34,7 +30,7 @@ export const loginUser = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password, profile))) {
       return res.status(201).json({
         _id: user._id,
-        message:'User Login Sucessfully',
+        message: "User Login Sucessfully",
         userName: user.userName,
         password: user.password,
         profile: user.profile,
@@ -44,7 +40,6 @@ export const loginUser = async (req, res) => {
     } else {
       return res.status(401).json({ message: "UserDoes not exist" });
     }
-
   } catch (error) {
     return res
       .status(401)
@@ -56,7 +51,7 @@ export const getLoginUserData = async (req, res) => {
   try {
     let { id } = req.params;
 
-    let user = await User.findById(id );
+    let user = await User.findById(id);
     return res.status(201).json({
       _id: user._id,
       userName: user.userName,

@@ -1,4 +1,5 @@
 import express from "express";
+import upload from "../upload.js";
 import {
   postData,
   getData,
@@ -9,7 +10,7 @@ import {
 import { auth } from "../Middleware/AuthMiddleware.js";
 let router = express.Router();
 // Create Data
-router.post("/",auth, postData);
+router.post("/",auth,upload.single('image'), postData);
 
 //Read Data;
 router.get("/",auth, getData);

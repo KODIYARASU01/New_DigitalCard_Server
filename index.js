@@ -45,7 +45,7 @@ app.get('/',(req,res)=>{
 })
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(uri)
+  .connect(uri,{useNewUrlParser:true,useUnifiedTopology:true})
   .then(() => {
     console.log("Mongodb Connected Succesfully");
     app.listen(PORT, () => {

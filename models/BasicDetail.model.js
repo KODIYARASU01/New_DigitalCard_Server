@@ -9,6 +9,7 @@ let BasiDetailSchema = mongoose.Schema(
     },
     banner: {
       type: String,
+      required:true
     },
     logo: {
       type: String,
